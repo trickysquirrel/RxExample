@@ -48,7 +48,8 @@ class CountriesViewModel: SectionViewModel {
                 self?.isLoading.accept(false)
             } catch let error {
                 // handle data errors here
-               print("Error:", error.localizedDescription)
+                self?.isLoading.accept(false)
+                print("Error:", error.localizedDescription)
             }
         }.resume()
     }

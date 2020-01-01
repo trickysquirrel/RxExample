@@ -16,7 +16,7 @@ class SectionTableViewController: UITableViewController {
 
     private let viewModel: SectionViewModel
     private let disposeBag = DisposeBag()
-    private let routerActions: CountriesRouterActions
+    private let routerActions: DetailsRouterActions
     private let navigationTitle: String
 
     @available(*, unavailable)
@@ -24,7 +24,11 @@ class SectionTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    init(navigationTitle: String, viewModel: SectionViewModel, routerActions: CountriesRouterActions) {
+    deinit {
+        print("de init")
+    }
+
+    init(navigationTitle: String, viewModel: SectionViewModel, routerActions: DetailsRouterActions) {
         self.viewModel = viewModel
         self.navigationTitle = navigationTitle
         self.routerActions = routerActions
@@ -50,6 +54,7 @@ class SectionTableViewController: UITableViewController {
 
 
     private func bindLoadingView(to viewModel: SectionViewModel) {
+        // switch to MD progress hub and add to view so hidden when dismissed and removes warnings
         viewModel.isLoading
             .bind(to: SVProgressHUD.rx.isAnimating)
             .disposed(by: disposeBag)
@@ -59,9 +64,11 @@ class SectionTableViewController: UITableViewController {
     private func bindTableView(to viewModel: SectionViewModel) {
 
         let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, SectionItemModel>>(
-            configureCell: { dataSource, table, indexPath, item in
+            configureCell: { [weak self] dataSource, table, indexPath, item in
+                guard let self = self else { return UITableViewCell() }
                 let cell = self.tableView.dequeueReusableCell(withIdentifier: "TitleTableCell", for: indexPath)
                 cell.textLabel?.text = item.name
+                cell.textLabel?.numberOfLines = 0
                 return cell
             },
             titleForHeaderInSection: { dataSource, index in
@@ -82,7 +89,7 @@ class SectionTableViewController: UITableViewController {
         tableView.rx.modelSelected(SectionItemModel.self)
             .subscribe(onNext: { [weak self] country in
                 guard let self = self else { return }
-                self.routerActions.showDetails(from: self, countryName: country.name, countryCode: country.code)
+                self.routerActions.showDetails(from: self, name: country.name, code: country.code)
             })
             .disposed(by: disposeBag)
     }

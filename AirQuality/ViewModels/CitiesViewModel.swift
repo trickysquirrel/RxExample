@@ -54,10 +54,10 @@ class CitiesViewModel: SectionViewModel {
                 let citiesModel = try JSONDecoder().decode(CitiesDataModel.self, from: data)
                 self?.updateCities(citiesModel.results)
                 self?.isLoading.accept(false)
-                print(citiesModel)
             } catch let error {
                 // handle data errors here
-               print("Error:", error.localizedDescription)
+                self?.isLoading.accept(false)
+                print("Error:", error.localizedDescription)
             }
         }.resume()
     }

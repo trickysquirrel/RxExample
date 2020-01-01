@@ -8,7 +8,7 @@ import UIKit
 
 struct ViewControllerFactory {
 
-    func makeCountriesViewController(appActions: CountriesRouterActions) -> UIViewController {
+    func makeCountriesViewController(appActions: DetailsRouterActions) -> UIViewController {
         let viewController = SectionTableViewController(
             navigationTitle: "Countries",
             viewModel: CountriesViewModel(),
@@ -16,10 +16,18 @@ struct ViewControllerFactory {
         return viewController
     }
 
-    func makeDetailsViewController(countryCode: String, appActions: CountriesRouterActions) -> UIViewController {
+    func makeCitiesViewController(countryCode: String, appActions: DetailsRouterActions) -> UIViewController {
         let viewController = SectionTableViewController(
             navigationTitle: "Cities",
             viewModel: CitiesViewModel(countryCode: countryCode),
+            routerActions: appActions)
+        return viewController
+    }
+
+    func makeMeasurementsViewController(cityName: String, code: String, appActions: DetailsRouterActions) -> UIViewController {
+        let viewController = SectionTableViewController(
+            navigationTitle: cityName,
+            viewModel: MeasurementsViewModel(cityCode: code),
             routerActions: appActions)
         return viewController
     }
