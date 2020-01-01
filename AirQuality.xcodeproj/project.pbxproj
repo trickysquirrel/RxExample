@@ -7,13 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B9768CA6D07F02293899131 /* Pods_AirQualityTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7191F0262A385A819953709 /* Pods_AirQualityTests.framework */; };
 		30FDA5BC23BAFB6600ED9815 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FDA5BB23BAFB6600ED9815 /* AppDelegate.swift */; };
-		30FDA5BE23BAFB6600ED9815 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FDA5BD23BAFB6600ED9815 /* SceneDelegate.swift */; };
 		30FDA5C023BAFB6600ED9815 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FDA5BF23BAFB6600ED9815 /* ViewController.swift */; };
 		30FDA5C323BAFB6600ED9815 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30FDA5C123BAFB6600ED9815 /* Main.storyboard */; };
 		30FDA5C523BAFB6600ED9815 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30FDA5C423BAFB6600ED9815 /* Assets.xcassets */; };
 		30FDA5C823BAFB6600ED9815 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30FDA5C623BAFB6600ED9815 /* LaunchScreen.storyboard */; };
 		30FDA5D323BAFB6600ED9815 /* AirQualityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FDA5D223BAFB6600ED9815 /* AirQualityTests.swift */; };
+		30FDA5DF23BAFE7A00ED9815 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FDA5DE23BAFE7A00ED9815 /* AppRouter.swift */; };
+		30FDA5E123BAFEF300ED9815 /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FDA5E023BAFEF300ED9815 /* ViewControllerFactory.swift */; };
+		30FDA5E423BAFF7F00ED9815 /* InformationAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FDA5E323BAFF7F00ED9815 /* InformationAlert.swift */; };
+		30FDA5E723BB00CD00ED9815 /* CountriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FDA5E623BB00CD00ED9815 /* CountriesTableViewController.swift */; };
+		30FDA5E923BB4A8F00ED9815 /* CountriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FDA5E823BB4A8F00ED9815 /* CountriesViewModel.swift */; };
+		30FDA5F423BCA6D500ED9815 /* Array+ElementAt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FDA5F323BCA6D500ED9815 /* Array+ElementAt.swift */; };
+		30FDA5F623BCAF1400ED9815 /* Reactive+SVProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FDA5F523BCAF1400ED9815 /* Reactive+SVProgressHUD.swift */; };
+		AA5767EDCBB6B9182D013BB7 /* Pods_AirQuality.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD4A5B55C7D8C8E1FC807353 /* Pods_AirQuality.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,9 +35,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0092780BE959900E8F139AB6 /* Pods-AirQualityTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AirQualityTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AirQualityTests/Pods-AirQualityTests.debug.xcconfig"; sourceTree = "<group>"; };
 		30FDA5B823BAFB6600ED9815 /* AirQuality.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AirQuality.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30FDA5BB23BAFB6600ED9815 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		30FDA5BD23BAFB6600ED9815 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		30FDA5BF23BAFB6600ED9815 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		30FDA5C223BAFB6600ED9815 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		30FDA5C423BAFB6600ED9815 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -38,6 +46,18 @@
 		30FDA5CE23BAFB6600ED9815 /* AirQualityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AirQualityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		30FDA5D223BAFB6600ED9815 /* AirQualityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirQualityTests.swift; sourceTree = "<group>"; };
 		30FDA5D423BAFB6600ED9815 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		30FDA5DE23BAFE7A00ED9815 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		30FDA5E023BAFEF300ED9815 /* ViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
+		30FDA5E323BAFF7F00ED9815 /* InformationAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationAlert.swift; sourceTree = "<group>"; };
+		30FDA5E623BB00CD00ED9815 /* CountriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesTableViewController.swift; sourceTree = "<group>"; };
+		30FDA5E823BB4A8F00ED9815 /* CountriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesViewModel.swift; sourceTree = "<group>"; };
+		30FDA5F323BCA6D500ED9815 /* Array+ElementAt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+ElementAt.swift"; sourceTree = "<group>"; };
+		30FDA5F523BCAF1400ED9815 /* Reactive+SVProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reactive+SVProgressHUD.swift"; sourceTree = "<group>"; };
+		3628B4E90DA53232861C07FD /* Pods-AirQualityTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AirQualityTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AirQualityTests/Pods-AirQualityTests.release.xcconfig"; sourceTree = "<group>"; };
+		54F51DCAF256553956FAB4EB /* Pods-AirQuality.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AirQuality.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AirQuality/Pods-AirQuality.debug.xcconfig"; sourceTree = "<group>"; };
+		BD4A5B55C7D8C8E1FC807353 /* Pods_AirQuality.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AirQuality.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7191F0262A385A819953709 /* Pods_AirQualityTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AirQualityTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5A4122BE53ED4B00E0A45B4 /* Pods-AirQuality.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AirQuality.release.xcconfig"; path = "Pods/Target Support Files/Pods-AirQuality/Pods-AirQuality.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA5767EDCBB6B9182D013BB7 /* Pods_AirQuality.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,18 +73,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B9768CA6D07F02293899131 /* Pods_AirQualityTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		026D282CE14A602AD8097A06 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				54F51DCAF256553956FAB4EB /* Pods-AirQuality.debug.xcconfig */,
+				E5A4122BE53ED4B00E0A45B4 /* Pods-AirQuality.release.xcconfig */,
+				0092780BE959900E8F139AB6 /* Pods-AirQualityTests.debug.xcconfig */,
+				3628B4E90DA53232861C07FD /* Pods-AirQualityTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		30FDA5AF23BAFB6600ED9815 = {
 			isa = PBXGroup;
 			children = (
 				30FDA5BA23BAFB6600ED9815 /* AirQuality */,
 				30FDA5D123BAFB6600ED9815 /* AirQualityTests */,
 				30FDA5B923BAFB6600ED9815 /* Products */,
+				026D282CE14A602AD8097A06 /* Pods */,
+				9E732E688CA8B5761D2C1599 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,8 +114,10 @@
 		30FDA5BA23BAFB6600ED9815 /* AirQuality */ = {
 			isa = PBXGroup;
 			children = (
+				30FDA5DD23BAFE6B00ED9815 /* AppRouter */,
+				30FDA5E523BB00AC00ED9815 /* CountriesViewController */,
+				30FDA5E223BAFF7400ED9815 /* Utils */,
 				30FDA5BB23BAFB6600ED9815 /* AppDelegate.swift */,
-				30FDA5BD23BAFB6600ED9815 /* SceneDelegate.swift */,
 				30FDA5BF23BAFB6600ED9815 /* ViewController.swift */,
 				30FDA5C123BAFB6600ED9815 /* Main.storyboard */,
 				30FDA5C423BAFB6600ED9815 /* Assets.xcassets */,
@@ -99,6 +136,43 @@
 			path = AirQualityTests;
 			sourceTree = "<group>";
 		};
+		30FDA5DD23BAFE6B00ED9815 /* AppRouter */ = {
+			isa = PBXGroup;
+			children = (
+				30FDA5DE23BAFE7A00ED9815 /* AppRouter.swift */,
+				30FDA5E023BAFEF300ED9815 /* ViewControllerFactory.swift */,
+			);
+			path = AppRouter;
+			sourceTree = "<group>";
+		};
+		30FDA5E223BAFF7400ED9815 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				30FDA5E323BAFF7F00ED9815 /* InformationAlert.swift */,
+				30FDA5F323BCA6D500ED9815 /* Array+ElementAt.swift */,
+				30FDA5F523BCAF1400ED9815 /* Reactive+SVProgressHUD.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		30FDA5E523BB00AC00ED9815 /* CountriesViewController */ = {
+			isa = PBXGroup;
+			children = (
+				30FDA5E623BB00CD00ED9815 /* CountriesTableViewController.swift */,
+				30FDA5E823BB4A8F00ED9815 /* CountriesViewModel.swift */,
+			);
+			path = CountriesViewController;
+			sourceTree = "<group>";
+		};
+		9E732E688CA8B5761D2C1599 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BD4A5B55C7D8C8E1FC807353 /* Pods_AirQuality.framework */,
+				D7191F0262A385A819953709 /* Pods_AirQualityTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -106,9 +180,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 30FDA5D723BAFB6600ED9815 /* Build configuration list for PBXNativeTarget "AirQuality" */;
 			buildPhases = (
+				6AD9B295807E56D27EBA93A9 /* [CP] Check Pods Manifest.lock */,
 				30FDA5B423BAFB6600ED9815 /* Sources */,
 				30FDA5B523BAFB6600ED9815 /* Frameworks */,
 				30FDA5B623BAFB6600ED9815 /* Resources */,
+				6CC16710022823D969451426 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -123,6 +199,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 30FDA5DA23BAFB6600ED9815 /* Build configuration list for PBXNativeTarget "AirQualityTests" */;
 			buildPhases = (
+				A3C30B89EFE14D34CD7911B5 /* [CP] Check Pods Manifest.lock */,
 				30FDA5CA23BAFB6600ED9815 /* Sources */,
 				30FDA5CB23BAFB6600ED9815 /* Frameworks */,
 				30FDA5CC23BAFB6600ED9815 /* Resources */,
@@ -195,14 +272,101 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6AD9B295807E56D27EBA93A9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AirQuality-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6CC16710022823D969451426 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-AirQuality/Pods-AirQuality-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/DJSemiModalViewController/DJSemiModalViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
+				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DJSemiModalViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AirQuality/Pods-AirQuality-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A3C30B89EFE14D34CD7911B5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AirQualityTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		30FDA5B423BAFB6600ED9815 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				30FDA5C023BAFB6600ED9815 /* ViewController.swift in Sources */,
+				30FDA5F423BCA6D500ED9815 /* Array+ElementAt.swift in Sources */,
+				30FDA5E123BAFEF300ED9815 /* ViewControllerFactory.swift in Sources */,
+				30FDA5F623BCAF1400ED9815 /* Reactive+SVProgressHUD.swift in Sources */,
+				30FDA5E923BB4A8F00ED9815 /* CountriesViewModel.swift in Sources */,
+				30FDA5E423BAFF7F00ED9815 /* InformationAlert.swift in Sources */,
 				30FDA5BC23BAFB6600ED9815 /* AppDelegate.swift in Sources */,
-				30FDA5BE23BAFB6600ED9815 /* SceneDelegate.swift in Sources */,
+				30FDA5E723BB00CD00ED9815 /* CountriesTableViewController.swift in Sources */,
+				30FDA5DF23BAFE7A00ED9815 /* AppRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,6 +524,7 @@
 		};
 		30FDA5D823BAFB6600ED9815 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 54F51DCAF256553956FAB4EB /* Pods-AirQuality.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -378,6 +543,7 @@
 		};
 		30FDA5D923BAFB6600ED9815 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E5A4122BE53ED4B00E0A45B4 /* Pods-AirQuality.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -396,6 +562,7 @@
 		};
 		30FDA5DB23BAFB6600ED9815 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0092780BE959900E8F139AB6 /* Pods-AirQualityTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -418,6 +585,7 @@
 		};
 		30FDA5DC23BAFB6600ED9815 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3628B4E90DA53232861C07FD /* Pods-AirQualityTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
