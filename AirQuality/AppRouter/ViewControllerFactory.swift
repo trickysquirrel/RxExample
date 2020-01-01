@@ -9,7 +9,18 @@ import UIKit
 struct ViewControllerFactory {
 
     func makeCountriesViewController(appActions: CountriesRouterActions) -> UIViewController {
-        let viewController = CountriesTableViewController(routerActions: appActions)
+        let viewController = SectionTableViewController(
+            navigationTitle: "Countries",
+            viewModel: CountriesViewModel(),
+            routerActions: appActions)
+        return viewController
+    }
+
+    func makeDetailsViewController(countryCode: String, appActions: CountriesRouterActions) -> UIViewController {
+        let viewController = SectionTableViewController(
+            navigationTitle: "Cities",
+            viewModel: CitiesViewModel(countryCode: countryCode),
+            routerActions: appActions)
         return viewController
     }
 }

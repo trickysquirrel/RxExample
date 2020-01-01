@@ -4,7 +4,7 @@ import DJSemiModalViewController
 /// For RouterActions perfer to use Values rather than Classes to keep a stricter control dependancy and side effects
 
 protocol CountriesRouterActions: class {
-    func showCountryDetails(from viewController: UIViewController, countryName: String)
+    func showDetails(from viewController: UIViewController, countryName: String, countryCode: String)
 }
 
 
@@ -55,16 +55,10 @@ class AppRouter {
 
 extension AppRouter: CountriesRouterActions {
 
-    func showCountryDetails(from viewController: UIViewController, countryName: String) {
-        viewController.view.alpha = 0.5
-        let controller = DJSemiModalViewController()
-        controller.title = countryName
-        let label = UILabel()
-        label.text = "An example label"
-        label.textAlignment = .center
-        controller.addArrangedSubview(view: label)
-        controller.presentOn(presentingViewController: viewController, animated: true, onDismiss: {
-            viewController.view.alpha = 1.0
-        })
+    func showDetails(from viewController: UIViewController, countryName: String, countryCode: String) {
+        let detailsViewController = viewControllerFactory.makeDetailsViewController(
+            countryCode: countryCode,
+            appActions: self)
+        navigationController.pushViewController(detailsViewController, animated: true)
     }
 }

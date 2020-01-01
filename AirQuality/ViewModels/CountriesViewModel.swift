@@ -10,36 +10,32 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-struct CountriesDataModel: Decodable {
-    let meta: MetaDataModel
-    let results: [CountryDataModel]
+private struct CountriesDataModel: Decodable {
+    let meta: Meta
+    let results: [Country]
+
+    struct Meta: Decodable {
+        let name, license: String
+        let website: String
+        let page, limit, found: Int
+    }
+
+    struct Country: Decodable {
+        let code: String
+        let count, locations, cities: Int
+        let name: String?
+    }
 }
 
-struct MetaDataModel: Decodable {
-    let name, license: String
-    let website: String
-    let page, limit, found: Int
-}
 
-struct CountryDataModel: Decodable {
-    let code: String
-    let count, locations, cities: Int
-    let name: String?
-}
+class CountriesViewModel: SectionViewModel {
 
-struct CountryModel: Decodable {
-    let code: String
-    let name: String
-}
-
-class CountriesViewModel {
-
-    let sections: BehaviorSubject<[SectionModel<String, CountryModel>]> = BehaviorSubject(value: [])
+    let sections: BehaviorSubject<[SectionModel<String, SectionItemModel>]> = BehaviorSubject(value: [])
     let isLoading = BehaviorRelay<Bool>(value: true)
     private let url = URL(string: "https://api.openaq.org/v1/countries")!
 
 
-    func retrieveCountries() {
+    func loadData() {
 
         isLoading.accept(true)
 
@@ -58,17 +54,17 @@ class CountriesViewModel {
     }
 
 
-    private func updateCountries(_ countries: [CountryDataModel]) {
+    private func updateCountries(_ countries: [CountriesDataModel.Country]) {
 
         let orderedCountriesWithNames = countries
             .filter { $0.name != nil }
-            .map { CountryModel(code: $0.code, name: $0.name ?? "unknown") }
+            .map { SectionItemModel(code: $0.code, name: $0.name ?? "unknown") }
             .sorted { $0.name < $1.name }
 
         let groupedAlphabeticalCountries = Dictionary(grouping: orderedCountriesWithNames, by: { String($0.name.prefix(1)) })
         let sortedGroupedCountries = groupedAlphabeticalCountries.sorted { $0.key < $1.key }
 
-        var sectionModels: [SectionModel<String, CountryModel>] = []
+        var sectionModels: [SectionModel<String, SectionItemModel>] = []
 
         for group in sortedGroupedCountries {
             sectionModels.append(SectionModel(model: group.key, items: group.value)) // groupkey

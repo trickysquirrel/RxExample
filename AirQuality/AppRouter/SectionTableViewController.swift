@@ -12,19 +12,21 @@ import RxCocoa
 import RxDataSources
 import SVProgressHUD
 
-class CountriesTableViewController: UITableViewController {
+class SectionTableViewController: UITableViewController {
 
-    private let viewModel: CountriesViewModel
+    private let viewModel: SectionViewModel
     private let disposeBag = DisposeBag()
     private let routerActions: CountriesRouterActions
+    private let navigationTitle: String
 
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    init(routerActions: CountriesRouterActions) {
-        self.viewModel = CountriesViewModel()
+    init(navigationTitle: String, viewModel: SectionViewModel, routerActions: CountriesRouterActions) {
+        self.viewModel = viewModel
+        self.navigationTitle = navigationTitle
         self.routerActions = routerActions
         super.init(nibName: nil, bundle: nil)
     }
@@ -32,33 +34,33 @@ class CountriesTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Countries"
+        title = navigationTitle
         configureTableViewForRxBinding()
         bindLoadingView(to: viewModel)
         bindTableView(to: viewModel)
-        viewModel.retrieveCountries()
+        viewModel.loadData()
     }
 
 
     private func configureTableViewForRxBinding() {
         tableView.delegate = nil
         tableView.dataSource = nil
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CountriesCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "TitleTableCell")
     }
 
 
-    private func bindLoadingView(to viewModel: CountriesViewModel) {
+    private func bindLoadingView(to viewModel: SectionViewModel) {
         viewModel.isLoading
             .bind(to: SVProgressHUD.rx.isAnimating)
             .disposed(by: disposeBag)
     }
 
     
-    private func bindTableView(to viewModel: CountriesViewModel) {
+    private func bindTableView(to viewModel: SectionViewModel) {
 
-        let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, CountryModel>>(
+        let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, SectionItemModel>>(
             configureCell: { dataSource, table, indexPath, item in
-                let cell = self.tableView.dequeueReusableCell(withIdentifier: "CountriesCell", for: indexPath)
+                let cell = self.tableView.dequeueReusableCell(withIdentifier: "TitleTableCell", for: indexPath)
                 cell.textLabel?.text = item.name
                 return cell
             },
@@ -77,10 +79,10 @@ class CountriesTableViewController: UITableViewController {
             })
             .disposed(by: disposeBag)
 
-        tableView.rx.modelSelected(CountryModel.self)
+        tableView.rx.modelSelected(SectionItemModel.self)
             .subscribe(onNext: { [weak self] country in
                 guard let self = self else { return }
-                self.routerActions.showCountryDetails(from: self, countryName: country.name)
+                self.routerActions.showDetails(from: self, countryName: country.name, countryCode: country.code)
             })
             .disposed(by: disposeBag)
     }
