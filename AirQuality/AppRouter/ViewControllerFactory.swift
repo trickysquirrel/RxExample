@@ -12,7 +12,7 @@ struct ViewControllerFactory {
         let viewController = SectionTableViewController(
             navigationTitle: "Countries",
             viewModel: CountriesViewModel(),
-            routerActions: appActions)
+            cellActions: appActions)
         return viewController
     }
 
@@ -20,15 +20,15 @@ struct ViewControllerFactory {
         let viewController = SectionTableViewController(
             navigationTitle: "Cities",
             viewModel: CitiesViewModel(countryCode: countryCode),
-            routerActions: appActions)
+            cellActions: appActions)
         return viewController
     }
 
-    func makeMeasurementsViewController(cityName: String, code: String, appActions: DetailsRouterActions) -> UIViewController {
+    func makeMeasurementsViewController(cityName: String, code: String) -> UIViewController {
         let viewController = SectionTableViewController(
             navigationTitle: cityName,
             viewModel: MeasurementsViewModel(cityCode: code),
-            routerActions: appActions)
+            cellActions: nil)
         return viewController
     }
 }

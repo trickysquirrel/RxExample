@@ -78,7 +78,6 @@ class AppRouterCities: DetailsRouterActions {
 
     private let navigationController: UINavigationController
     private let viewControllerFactory: ViewControllerFactory
-    private let appRouterNoActions = AppRouterNoActions()
 
     init(navigationController: UINavigationController, viewControllerFactory: ViewControllerFactory) {
         self.navigationController = navigationController
@@ -86,15 +85,9 @@ class AppRouterCities: DetailsRouterActions {
     }
 
     func showDetails(from viewController: UIViewController, name: String, code: String) {
-        print("name \(name)  code \(code)")
         let detailsViewController = viewControllerFactory.makeMeasurementsViewController(
             cityName: name,
-            code: code,
-            appActions: appRouterNoActions)
+            code: code)
         navigationController.pushViewController(detailsViewController, animated: true)
     }
-}
-
-class AppRouterNoActions: DetailsRouterActions {
-    func showDetails(from viewController: UIViewController, name: String, code: String) {}
 }

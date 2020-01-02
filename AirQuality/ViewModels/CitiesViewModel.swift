@@ -38,7 +38,7 @@ class CitiesViewModel: SectionViewModel {
         self.url = URL(string: urlString)
     }
 
-    func loadData() {
+    func loadFirstPage() {
 
         guard let url = url else {
             // show error
@@ -61,6 +61,9 @@ class CitiesViewModel: SectionViewModel {
             }
         }.resume()
     }
+
+    
+    func loadNextPage() {}
 
 
     private func updateCities(_ countries: [CitiesDataModel.Result]) {

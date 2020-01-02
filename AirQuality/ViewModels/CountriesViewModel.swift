@@ -35,7 +35,7 @@ class CountriesViewModel: SectionViewModel {
     private let url = URL(string: "https://api.openaq.org/v1/countries")!
 
 
-    func loadData() {
+    func loadFirstPage() {
 
         isLoading.accept(true)
 
@@ -53,6 +53,9 @@ class CountriesViewModel: SectionViewModel {
             }
         }.resume()
     }
+
+    
+    func loadNextPage() {}
 
 
     private func updateCountries(_ countries: [CountriesDataModel.Country]) {

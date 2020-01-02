@@ -44,32 +44,49 @@ private struct MeasurementsDataModel: Decodable {
     }
 }
 
-
-
 class MeasurementsViewModel: SectionViewModel {
 
     let sections: BehaviorSubject<[SectionModel<String, SectionItemModel>]> = BehaviorSubject(value: [])
-    let isLoading = BehaviorRelay<Bool>(value: true)
-    private let url: URL?
+    let isLoading = BehaviorRelay<Bool>(value: false)
+    private var metaData: MeasurementsDataModel.Meta?
     private let dateFormatter = DateFormatter()
+    private var previousLoadedModels: [SectionItemModel] = []
+    private let escapedCityCode: String
+    private let pageLimit: Int = 100
 
 
     init(cityCode: String) {
-        let escapedCityCode = cityCode.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]{} ").inverted) ?? "" // handle this error better
-        let urlString = "https://api.openaq.org/v1/measurements?city=" + escapedCityCode
-        print(urlString)
-        self.url = URL(string: urlString)
+        escapedCityCode = cityCode.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]{} ").inverted) ?? "" // handle this error better
         self.dateFormatter.dateStyle = .medium
         self.dateFormatter.timeStyle = .medium
     }
 
-    func loadData() {
+    func loadFirstPage() {
+        loadNextPage()
+    }
 
-        guard let url = url else {
+    private func nextPageNumber() -> Int? {
+        let page = (metaData?.page ?? 0) + 1 // api first page = 1
+        let numberOfPages = (metaData?.found ?? 1) / pageLimit
+        let validNumberOfPages = max(numberOfPages, 1)
+        if page <= validNumberOfPages {
+            return page
+        }
+        return nil
+    }
+
+    func loadNextPage() {
+
+        guard isLoading.value == false,
+            let pageNumber = nextPageNumber()
+            else { return }  // do nothing
+
+        guard let url = URL(string: "https://api.openaq.org/v1/measurements?city=" + escapedCityCode + "&page=\(pageNumber)&limit=\(pageLimit)") else {
             // show error
             return
         }
 
+        print(">>> isloading page url \(url.absoluteString)")
         isLoading.accept(true)
 
         URLSession.shared.dataTask(with: url) { [weak self] (data, _, error) in
@@ -79,28 +96,28 @@ class MeasurementsViewModel: SectionViewModel {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
                 let citiesModel = try decoder.decode(MeasurementsDataModel.self, from: data)
-                self?.updateLocations(citiesModel.results)
+                self?.metaData = citiesModel.meta
+                self?.appendLocations(citiesModel.results)
                 self?.isLoading.accept(false)
-                print(citiesModel)
             } catch let error {
                 // handle data errors here
                 self?.isLoading.accept(false)
                 print("Error:", error.localizedDescription)
             }
         }.resume()
+
     }
+    
 
-
-    private func updateLocations(_ countries: [MeasurementsDataModel.Result]) {
+    private func appendLocations(_ countries: [MeasurementsDataModel.Result]) {
 
         let orderedCountriesWithNames = countries
-            .map { SectionItemModel(code: "", name: "location: \($0.location)\nvalue: \($0.value)\($0.unit) \ndate: \(dateFormatter.string(from: $0.date.local)) \n\(parameters[$0.parameter] ?? "unknown")") }
+            .map { SectionItemModel(code: "", name: "location: \($0.location)\nvalue: \($0.value)\($0.unit) \n\(parameters[$0.parameter] ?? "unknown")\n\(dateFormatter.string(from: $0.date.local))") }
+
+        previousLoadedModels += orderedCountriesWithNames
 
         var sectionModels: [SectionModel<String, SectionItemModel>] = []
-
-        sectionModels.append(SectionModel(model: "", items: orderedCountriesWithNames))
-
-
+        sectionModels.append(SectionModel(model: "", items: previousLoadedModels))
         sections.onNext(sectionModels)
     }
 
