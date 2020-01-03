@@ -42,8 +42,9 @@ class CitiesViewModel: SectionViewModelType, SectionViewModelTypeInputs, Section
                     },
                     onCompleted: { [weak self] in
                         self?.showLoading.accept(false)
-                    })
-                    .disposed(by: disposeBag)
+                    }
+                )
+                .disposed(by: disposeBag)
         }
         catch {
             self.showLoading.accept(false)
@@ -57,20 +58,16 @@ class CitiesViewModel: SectionViewModelType, SectionViewModelTypeInputs, Section
 
     private func updateCities(_ countries: [CitiesAPIModel.Result]) {
 
-        let orderedCountriesWithNames = countries
+        let orderedCitiesWithNames = countries
             .filter { $0.name != ignoreName }
             .map { SectionItemModel(code: $0.name, name: $0.city) }
             .sorted { $0.name < $1.name }
 
-        let groupedAlphabeticalCountries = Dictionary(grouping: orderedCountriesWithNames, by: { String($0.name.prefix(1)) })
-        let sortedGroupedCountries = groupedAlphabeticalCountries.sorted { $0.key < $1.key }
+        let groupedAlphabeticalCities = Dictionary(grouping: orderedCitiesWithNames, by: { String($0.name.prefix(1)) })
+        let sortedGroupedCities = groupedAlphabeticalCities.sorted { $0.key < $1.key }
 
-        var sectionModels: [SectionModel<String, SectionItemModel>] = []
-
-        for group in sortedGroupedCountries {
-            sectionModels.append(SectionModel(model: group.key, items: group.value)) // groupkey
-        }
-
+        // [SectionModel<String, SectionItemModel>]
+        let sectionModels = sortedGroupedCities.map { SectionModel(model: $0.key, items: $0.value) }
         sections.onNext(sectionModels)
     }
 

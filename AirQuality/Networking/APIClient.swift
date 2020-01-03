@@ -9,6 +9,7 @@
 import RxSwift
 import RxCocoa
 
+// https://www.codementor.io/@mehobega/urlsession-web-api-calls-reactive-way-rxswift-rxcocoa-10kmc5h669
 
 class APIClient {
 

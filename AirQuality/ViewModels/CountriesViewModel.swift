@@ -39,8 +39,9 @@ class CountriesViewModel: SectionViewModelType, SectionViewModelTypeInputs, Sect
                     },
                     onCompleted: { [weak self] in
                         self?.showLoading.accept(false)
-                    })
-                    .disposed(by: disposeBag)
+                    }
+                )
+                .disposed(by: disposeBag)
         }
         catch {
             self.showLoading.accept(false)
@@ -62,12 +63,8 @@ class CountriesViewModel: SectionViewModelType, SectionViewModelTypeInputs, Sect
         let groupedAlphabeticalCountries = Dictionary(grouping: orderedCountriesWithNames, by: { String($0.name.prefix(1)) })
         let sortedGroupedCountries = groupedAlphabeticalCountries.sorted { $0.key < $1.key }
 
-        var sectionModels: [SectionModel<String, SectionItemModel>] = []
-
-        for group in sortedGroupedCountries {
-            sectionModels.append(SectionModel(model: group.key, items: group.value)) // groupkey
-        }
-
+        // [SectionModel<String, SectionItemModel>]
+        let sectionModels = sortedGroupedCountries.map { SectionModel(model: $0.key, items: $0.value) }
         sections.onNext(sectionModels)
     }
 

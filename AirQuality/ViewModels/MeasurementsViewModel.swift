@@ -72,8 +72,9 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, S
                     },
                     onCompleted: { [weak self] in
                         self?.setLoading(pageNumber: pageNumber, loading: false)
-                    })
-                    .disposed(by: disposeBag)
+                    }
+                )
+                .disposed(by: disposeBag)
         }
         catch {
             self.setLoading(pageNumber: pageNumber, loading: false)
@@ -97,8 +98,7 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, S
 
         previousLoadedModels += orderedCountriesWithNames
 
-        var sectionModels: [SectionModel<String, SectionItemModel>] = []
-        sectionModels.append(SectionModel(model: "", items: previousLoadedModels))
+        let sectionModels = [SectionModel(model: "", items: previousLoadedModels)]
         sections.onNext(sectionModels)
     }
 

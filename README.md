@@ -12,11 +12,14 @@ This works by having a seperate location to create each ViewController , in this
 
 As we only have one VC but require the cell selections to navigate to different VC, we also need to seperate out the navigating of those VCs, in this case we use `AppNavigator`.
 
-Together this allows reuse of the table view controller to show differnent information
+Together this allows reuse of the table view controller to show differnent information and link to differnent VCs
 
 
 ### Todo
 
 Work on error handing
+
 Show errors and retry
+
+UI warnings 
 
