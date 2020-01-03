@@ -12,6 +12,8 @@
 		30A5693523BCCECD006FED9E /* CitiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5693423BCCECD006FED9E /* CitiesViewModel.swift */; };
 		30A5693923BCD89B006FED9E /* MeasurementsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5693823BCD89B006FED9E /* MeasurementsViewModel.swift */; };
 		30A5693B23BF3943006FED9E /* Reactive+ReachedBottom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5693A23BF3943006FED9E /* Reactive+ReachedBottom.swift */; };
+		30A5693D23BF4102006FED9E /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5693C23BF4102006FED9E /* APIClient.swift */; };
+		30A5693F23BF45A8006FED9E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 30A5693E23BF45A8006FED9E /* README.md */; };
 		30FDA5BC23BAFB6600ED9815 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FDA5BB23BAFB6600ED9815 /* AppDelegate.swift */; };
 		30FDA5C023BAFB6600ED9815 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FDA5BF23BAFB6600ED9815 /* ViewController.swift */; };
 		30FDA5C323BAFB6600ED9815 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30FDA5C123BAFB6600ED9815 /* Main.storyboard */; };
@@ -44,6 +46,8 @@
 		30A5693423BCCECD006FED9E /* CitiesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesViewModel.swift; sourceTree = "<group>"; };
 		30A5693823BCD89B006FED9E /* MeasurementsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementsViewModel.swift; sourceTree = "<group>"; };
 		30A5693A23BF3943006FED9E /* Reactive+ReachedBottom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reactive+ReachedBottom.swift"; sourceTree = "<group>"; };
+		30A5693C23BF4102006FED9E /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		30A5693E23BF45A8006FED9E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		30FDA5B823BAFB6600ED9815 /* AirQuality.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AirQuality.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30FDA5BB23BAFB6600ED9815 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		30FDA5BF23BAFB6600ED9815 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +106,7 @@
 		30FDA5AF23BAFB6600ED9815 = {
 			isa = PBXGroup;
 			children = (
+				30A5693E23BF45A8006FED9E /* README.md */,
 				30FDA5BA23BAFB6600ED9815 /* AirQuality */,
 				30FDA5D123BAFB6600ED9815 /* AirQualityTests */,
 				30FDA5B923BAFB6600ED9815 /* Products */,
@@ -162,6 +167,7 @@
 				30FDA5F323BCA6D500ED9815 /* Array+ElementAt.swift */,
 				30FDA5F523BCAF1400ED9815 /* Reactive+SVProgressHUD.swift */,
 				30A5693A23BF3943006FED9E /* Reactive+ReachedBottom.swift */,
+				30A5693C23BF4102006FED9E /* APIClient.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -271,6 +277,7 @@
 			files = (
 				30FDA5C823BAFB6600ED9815 /* LaunchScreen.storyboard in Resources */,
 				30FDA5C523BAFB6600ED9815 /* Assets.xcassets in Resources */,
+				30A5693F23BF45A8006FED9E /* README.md in Resources */,
 				30FDA5C323BAFB6600ED9815 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -371,6 +378,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30FDA5C023BAFB6600ED9815 /* ViewController.swift in Sources */,
+				30A5693D23BF4102006FED9E /* APIClient.swift in Sources */,
 				30FDA5F423BCA6D500ED9815 /* Array+ElementAt.swift in Sources */,
 				30FDA5E123BAFEF300ED9815 /* ViewControllerFactory.swift in Sources */,
 				30FDA5F623BCAF1400ED9815 /* Reactive+SVProgressHUD.swift in Sources */,

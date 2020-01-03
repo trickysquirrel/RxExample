@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
+
 private let parameters: [String: String] = [
     "bc": "Black Carbon",
     "co": "Carbon Monoxide",
@@ -20,29 +21,6 @@ private let parameters: [String: String] = [
     "so2": "Sulfur Dioxide"
 ]
 
-private struct MeasurementsDataModel: Decodable {
-    let meta: Meta
-    let results: [Result]
-
-    struct Meta: Decodable {
-        let name, license: String
-        let website: String
-        let page, limit, found: Int
-    }
-
-    struct Result: Decodable {
-        let date: DateClass
-        let parameter: String
-        let location: String
-        let value: Double
-        let unit: String
-    }
-
-    struct DateClass: Decodable {
-        let utc: String
-        let local: Date
-    }
-}
 
 class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, SectionViewModelTypeOutputs {
 
@@ -53,13 +31,16 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, S
     let showLoading = BehaviorRelay<Bool>(value: false)
     private var isLoading: Bool = false
     private var metaData: MeasurementsDataModel.Meta?
-    private let dateFormatter = DateFormatter()
     private var previousLoadedModels: [SectionItemModel] = []
+
+    private let dateFormatter = DateFormatter()
     private let escapedCityCode: String
     private let pageLimit: Int = 100
+    private let disposeBag = DisposeBag()
 
 
     init(cityCode: String) {
+        // todo does not handle this correctly with all cities yet, need to check API as to why
         escapedCityCode = cityCode.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]{} ").inverted) ?? "" // handle this error better
         self.dateFormatter.dateStyle = .medium
         self.dateFormatter.timeStyle = .medium
@@ -69,45 +50,35 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, S
         loadNextPage()
     }
 
-    private func nextPageNumber() -> Int? {
-        let page = (metaData?.page ?? 0) + 1 // api first page = 1
-        let numberOfPages = (metaData?.found ?? 1) / pageLimit
-        let validNumberOfPages = max(numberOfPages, 1)
-        if page <= validNumberOfPages {
-            return page
-        }
-        return nil
-    }
-
     func loadNextPage() {
 
         guard isLoading == false,
             let pageNumber = nextPageNumber()
             else { return }  // do nothing
 
-        // todo not all cities work, more work with API required
-        guard let url = URL(string: "https://api.openaq.org/v1/measurements?city=" + escapedCityCode + "&page=\(pageNumber)&limit=\(pageLimit)") else {
-            // show error
-            return
-        }
-
         setLoading(pageNumber: pageNumber, loading: true)
 
-        URLSession.shared.dataTask(with: url) { [weak self] (data, _, error) in
-            // handle status code network errors here
-            guard let data = data else { return }
-            do {
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
-                let citiesModel = try decoder.decode(MeasurementsDataModel.self, from: data)
-                self?.metaData = citiesModel.meta
-                self?.appendLocations(citiesModel.results)
-            } catch let error {
-                // handle data errors here
-                print("Error:", error.localizedDescription)
-            }
-            self?.setLoading(pageNumber: pageNumber, loading: false)
-        }.resume()
+        let client = APIClient.shared
+        do {
+            try client.getMeasurements(escapedCityCode: escapedCityCode, pageNumber: pageNumber, pageLimit: pageLimit)
+                .subscribe(
+                    onNext: { [weak self] result in
+                        self?.metaData = result.meta
+                        self?.appendLocations(result.results)
+                    },
+                    onError: { error in
+                        // handle data/network errors here
+                        print(error.localizedDescription)
+                    },
+                    onCompleted: { [weak self] in
+                        self?.setLoading(pageNumber: pageNumber, loading: false)
+                    })
+                    .disposed(by: disposeBag)
+        }
+        catch {
+            self.setLoading(pageNumber: pageNumber, loading: false)
+            // handle error, e.g could not create url
+        }
     }
 
 
@@ -129,6 +100,17 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, S
         var sectionModels: [SectionModel<String, SectionItemModel>] = []
         sectionModels.append(SectionModel(model: "", items: previousLoadedModels))
         sections.onNext(sectionModels)
+    }
+
+
+    private func nextPageNumber() -> Int? {
+        let page = (metaData?.page ?? 0) + 1 // api first page = 1
+        let numberOfPages = (metaData?.found ?? 1) / pageLimit
+        let validNumberOfPages = max(numberOfPages, 1)
+        if page <= validNumberOfPages {
+            return page
+        }
+        return nil
     }
 
 }
