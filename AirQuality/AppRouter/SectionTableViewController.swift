@@ -16,7 +16,7 @@ import SVProgressHUD
 class SectionTableViewController: UITableViewController {
 
     private let cellId = "TitleTableCell"
-    private let viewModel: SectionViewModel
+    private let viewModel: SectionViewModelType
     private let disposeBag = DisposeBag()
     private let cellActions: DetailsRouterActions?
     private let navigationTitle: String
@@ -30,7 +30,7 @@ class SectionTableViewController: UITableViewController {
         print("de init")
     }
 
-    init(navigationTitle: String, viewModel: SectionViewModel, cellActions: DetailsRouterActions?) {
+    init(navigationTitle: String, viewModel: SectionViewModelType, cellActions: DetailsRouterActions?) {
         self.viewModel = viewModel
         self.navigationTitle = navigationTitle
         self.cellActions = cellActions
@@ -44,7 +44,7 @@ class SectionTableViewController: UITableViewController {
         configureTableView()
         bindLoadingView(to: viewModel)
         bindTableView(to: viewModel)
-        viewModel.loadFirstPage()
+        viewModel.inputs.loadFirstPage()
     }
 
 
@@ -55,16 +55,16 @@ class SectionTableViewController: UITableViewController {
     }
 
 
-    private func bindLoadingView(to viewModel: SectionViewModel) {
+    private func bindLoadingView(to viewModel: SectionViewModelType) {
         // switch to MD progress hub and add to view so hidden when dismissed and removes warnings
-        viewModel.showLoading
+        viewModel.outputs.showLoading
             .observeOn(MainScheduler.instance)
             .bind(to: SVProgressHUD.rx.isAnimating)
             .disposed(by: disposeBag)
     }
 
     
-    private func bindTableView(to viewModel: SectionViewModel) {
+    private func bindTableView(to viewModel: SectionViewModelType) {
 
         let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, SectionItemModel>>(
             configureCell: { [weak self] dataSource, table, indexPath, item in
@@ -83,14 +83,14 @@ class SectionTableViewController: UITableViewController {
         )
 
         // bind data source for cell generation
-        viewModel.sections
+        viewModel.outputs.sections
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
 
         // watch for when to load next page
         tableView.rx.reachedBottom
             .subscribe(onNext: { [weak self] indexPath in
-                self?.viewModel.loadNextPage()
+                self?.viewModel.inputs.loadNextPage()
             })
             .disposed(by: disposeBag)
 

@@ -26,7 +26,10 @@ private struct CitiesDataModel: Decodable {
     }
 }
 
-class CitiesViewModel: SectionViewModel {
+class CitiesViewModel: SectionViewModelType, SectionViewModelTypeInputs, SectionViewModelTypeOutputs {
+
+    var inputs: SectionViewModelTypeInputs { return self}
+    var outputs: SectionViewModelTypeOutputs { return self}
 
     let sections: BehaviorSubject<[SectionModel<String, SectionItemModel>]> = BehaviorSubject(value: [])
     let showLoading = BehaviorRelay<Bool>(value: true)

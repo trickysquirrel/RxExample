@@ -44,7 +44,10 @@ private struct MeasurementsDataModel: Decodable {
     }
 }
 
-class MeasurementsViewModel: SectionViewModel {
+class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, SectionViewModelTypeOutputs {
+
+    var inputs: SectionViewModelTypeInputs { return self}
+    var outputs: SectionViewModelTypeOutputs { return self}
 
     let sections: BehaviorSubject<[SectionModel<String, SectionItemModel>]> = BehaviorSubject(value: [])
     let showLoading = BehaviorRelay<Bool>(value: false)
@@ -82,6 +85,7 @@ class MeasurementsViewModel: SectionViewModel {
             let pageNumber = nextPageNumber()
             else { return }  // do nothing
 
+        // todo not all cities work, more work with API required
         guard let url = URL(string: "https://api.openaq.org/v1/measurements?city=" + escapedCityCode + "&page=\(pageNumber)&limit=\(pageLimit)") else {
             // show error
             return
