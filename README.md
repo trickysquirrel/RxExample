@@ -2,7 +2,7 @@
 
 Exploring the world of RxSwift using MVVM (how simple can we make the code?).
 
-![](rxexmple.2020-01-03 21_47_48.gif)
+![Demo](rxexmple.2020-01-03 21_47_48.gif)
 
 #### AppNavigator
 
