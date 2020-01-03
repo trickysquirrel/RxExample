@@ -29,7 +29,7 @@ private struct CitiesDataModel: Decodable {
 class CitiesViewModel: SectionViewModel {
 
     let sections: BehaviorSubject<[SectionModel<String, SectionItemModel>]> = BehaviorSubject(value: [])
-    let isLoading = BehaviorRelay<Bool>(value: true)
+    let showLoading = BehaviorRelay<Bool>(value: true)
     private let url: URL?
     private let ignoreName = "N/A"
 
@@ -45,7 +45,7 @@ class CitiesViewModel: SectionViewModel {
             return
         }
 
-        isLoading.accept(true)
+        showLoading.accept(true)
 
         URLSession.shared.dataTask(with: url) { [weak self] (data, _, error) in
             // handle status code network errors here
@@ -53,12 +53,11 @@ class CitiesViewModel: SectionViewModel {
             do {
                 let citiesModel = try JSONDecoder().decode(CitiesDataModel.self, from: data)
                 self?.updateCities(citiesModel.results)
-                self?.isLoading.accept(false)
             } catch let error {
                 // handle data errors here
-                self?.isLoading.accept(false)
                 print("Error:", error.localizedDescription)
             }
+            self?.showLoading.accept(false)
         }.resume()
     }
 

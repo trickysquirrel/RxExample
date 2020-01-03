@@ -47,7 +47,8 @@ private struct MeasurementsDataModel: Decodable {
 class MeasurementsViewModel: SectionViewModel {
 
     let sections: BehaviorSubject<[SectionModel<String, SectionItemModel>]> = BehaviorSubject(value: [])
-    let isLoading = BehaviorRelay<Bool>(value: false)
+    let showLoading = BehaviorRelay<Bool>(value: false)
+    private var isLoading: Bool = false
     private var metaData: MeasurementsDataModel.Meta?
     private let dateFormatter = DateFormatter()
     private var previousLoadedModels: [SectionItemModel] = []
@@ -77,7 +78,7 @@ class MeasurementsViewModel: SectionViewModel {
 
     func loadNextPage() {
 
-        guard isLoading.value == false,
+        guard isLoading == false,
             let pageNumber = nextPageNumber()
             else { return }  // do nothing
 
@@ -86,8 +87,7 @@ class MeasurementsViewModel: SectionViewModel {
             return
         }
 
-        print(">>> isloading page url \(url.absoluteString)")
-        isLoading.accept(true)
+        setLoading(pageNumber: pageNumber, loading: true)
 
         URLSession.shared.dataTask(with: url) { [weak self] (data, _, error) in
             // handle status code network errors here
@@ -98,14 +98,20 @@ class MeasurementsViewModel: SectionViewModel {
                 let citiesModel = try decoder.decode(MeasurementsDataModel.self, from: data)
                 self?.metaData = citiesModel.meta
                 self?.appendLocations(citiesModel.results)
-                self?.isLoading.accept(false)
             } catch let error {
                 // handle data errors here
-                self?.isLoading.accept(false)
                 print("Error:", error.localizedDescription)
             }
+            self?.setLoading(pageNumber: pageNumber, loading: false)
         }.resume()
+    }
 
+
+    private func setLoading(pageNumber: Int, loading: Bool) {
+        isLoading = loading
+        if pageNumber == 1 {
+            showLoading.accept(loading)
+        }
     }
     
 

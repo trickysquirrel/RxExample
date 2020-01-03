@@ -11,6 +11,7 @@
 		30A5693323BCCE77006FED9E /* SectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5693223BCCE77006FED9E /* SectionViewModel.swift */; };
 		30A5693523BCCECD006FED9E /* CitiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5693423BCCECD006FED9E /* CitiesViewModel.swift */; };
 		30A5693923BCD89B006FED9E /* MeasurementsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5693823BCD89B006FED9E /* MeasurementsViewModel.swift */; };
+		30A5693B23BF3943006FED9E /* Reactive+ReachedBottom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5693A23BF3943006FED9E /* Reactive+ReachedBottom.swift */; };
 		30FDA5BC23BAFB6600ED9815 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FDA5BB23BAFB6600ED9815 /* AppDelegate.swift */; };
 		30FDA5C023BAFB6600ED9815 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FDA5BF23BAFB6600ED9815 /* ViewController.swift */; };
 		30FDA5C323BAFB6600ED9815 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30FDA5C123BAFB6600ED9815 /* Main.storyboard */; };
@@ -42,6 +43,7 @@
 		30A5693223BCCE77006FED9E /* SectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionViewModel.swift; sourceTree = "<group>"; };
 		30A5693423BCCECD006FED9E /* CitiesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesViewModel.swift; sourceTree = "<group>"; };
 		30A5693823BCD89B006FED9E /* MeasurementsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementsViewModel.swift; sourceTree = "<group>"; };
+		30A5693A23BF3943006FED9E /* Reactive+ReachedBottom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reactive+ReachedBottom.swift"; sourceTree = "<group>"; };
 		30FDA5B823BAFB6600ED9815 /* AirQuality.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AirQuality.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30FDA5BB23BAFB6600ED9815 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		30FDA5BF23BAFB6600ED9815 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				30FDA5E323BAFF7F00ED9815 /* InformationAlert.swift */,
 				30FDA5F323BCA6D500ED9815 /* Array+ElementAt.swift */,
 				30FDA5F523BCAF1400ED9815 /* Reactive+SVProgressHUD.swift */,
+				30A5693A23BF3943006FED9E /* Reactive+ReachedBottom.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				30A5693323BCCE77006FED9E /* SectionViewModel.swift in Sources */,
 				30A5693523BCCECD006FED9E /* CitiesViewModel.swift in Sources */,
 				30FDA5DF23BAFE7A00ED9815 /* AppRouter.swift in Sources */,
+				30A5693B23BF3943006FED9E /* Reactive+ReachedBottom.swift in Sources */,
 				30A5693923BCD89B006FED9E /* MeasurementsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -31,13 +31,13 @@ private struct CountriesDataModel: Decodable {
 class CountriesViewModel: SectionViewModel {
 
     let sections: BehaviorSubject<[SectionModel<String, SectionItemModel>]> = BehaviorSubject(value: [])
-    let isLoading = BehaviorRelay<Bool>(value: true)
+    let showLoading = BehaviorRelay<Bool>(value: true)
     private let url = URL(string: "https://api.openaq.org/v1/countries")!
 
 
     func loadFirstPage() {
 
-        isLoading.accept(true)
+        showLoading.accept(true)
 
         URLSession.shared.dataTask(with: url) { [weak self] (data, _, error) in
             // handle status code network errors here
@@ -45,12 +45,11 @@ class CountriesViewModel: SectionViewModel {
             do {
                 let countriesModel = try JSONDecoder().decode(CountriesDataModel.self, from: data)
                 self?.updateCountries(countriesModel.results)
-                self?.isLoading.accept(false)
             } catch let error {
                 // handle data errors here
-                self?.isLoading.accept(false)
                 print("Error:", error.localizedDescription)
             }
+            self?.showLoading.accept(false)
         }.resume()
     }
 

@@ -18,7 +18,7 @@ struct SectionItemModel: Decodable {
 
 protocol SectionViewModel {
     var sections: BehaviorSubject<[SectionModel<String, SectionItemModel>]> { get }
-    var isLoading: BehaviorRelay<Bool> { get }
+    var showLoading: BehaviorRelay<Bool> { get }
     func loadFirstPage()
     func loadNextPage()
 }

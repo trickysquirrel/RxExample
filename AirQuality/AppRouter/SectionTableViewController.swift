@@ -13,14 +13,6 @@ import RxDataSources
 import SVProgressHUD
 
 
-private let startLoadingOffset: CGFloat = 20.0
-private func isNearTheBottomEdge(_ contentOffset: CGPoint, _ tableView: UITableView) -> Bool {
-    return contentOffset.y +
-        tableView.frame.size.height +
-        startLoadingOffset > tableView.contentSize.height
-}
-
-
 class SectionTableViewController: UITableViewController {
 
     private let cellId = "TitleTableCell"
@@ -28,7 +20,6 @@ class SectionTableViewController: UITableViewController {
     private let disposeBag = DisposeBag()
     private let cellActions: DetailsRouterActions?
     private let navigationTitle: String
-    private var loadNextPageTrigger: Observable<Void>?
 
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
@@ -50,40 +41,23 @@ class SectionTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = navigationTitle
-        configureTableViewForRxBinding()
+        configureTableView()
         bindLoadingView(to: viewModel)
         bindTableView(to: viewModel)
         viewModel.loadFirstPage()
     }
 
 
-    private func configureTableViewForRxBinding() {
+    private func configureTableView() {
         tableView.delegate = nil
         tableView.dataSource = nil
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
-        loadNextPageTrigger = self.tableView.rx.contentOffset
-            .flatMap { (offset) -> Observable<Void> in
-                isNearTheBottomEdge(offset, self.tableView)
-                    ? Observable.just(Void())
-                    : Observable.empty()
-            }
-    }
-
-
-    private func bindNextPageLoad() {
-        loadNextPageTrigger?
-            .asObservable()
-            .take(1)
-            .subscribe(onNext: { [weak self] in
-                self?.viewModel.loadNextPage()
-            })
-            .disposed(by: disposeBag)
     }
 
 
     private func bindLoadingView(to viewModel: SectionViewModel) {
         // switch to MD progress hub and add to view so hidden when dismissed and removes warnings
-        viewModel.isLoading
+        viewModel.showLoading
             .observeOn(MainScheduler.instance)
             .bind(to: SVProgressHUD.rx.isAnimating)
             .disposed(by: disposeBag)
@@ -110,21 +84,18 @@ class SectionTableViewController: UITableViewController {
 
         // bind data source for cell generation
         viewModel.sections
-            .observeOn(MainScheduler.instance)
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
 
         // watch for when to load next page
-        viewModel.sections
-            .observeOn(MainScheduler.instance)
+        tableView.rx.reachedBottom
             .subscribe(onNext: { [weak self] indexPath in
-                self?.bindNextPageLoad()
+                self?.viewModel.loadNextPage()
             })
             .disposed(by: disposeBag)
 
         // deselect row on selection
         tableView.rx.itemSelected
-            .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] indexPath in
                 self?.tableView.deselectRow(at: indexPath, animated: true)
             })
@@ -132,7 +103,6 @@ class SectionTableViewController: UITableViewController {
 
         // perform cell action when selected
         tableView.rx.modelSelected(SectionItemModel.self)
-            .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] country in
                 guard let self = self else { return }
                 self.cellActions?.showDetails(from: self, name: country.name, code: country.code)
