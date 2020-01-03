@@ -18,7 +18,7 @@ class SectionTableViewController: UITableViewController {
     private let cellId = "TitleTableCell"
     private let viewModel: SectionViewModelType
     private let disposeBag = DisposeBag()
-    private let cellActions: DetailsRouterActions?
+    private let cellActions: DetailsNavigator?
     private let navigationTitle: String
 
     @available(*, unavailable)
@@ -27,10 +27,11 @@ class SectionTableViewController: UITableViewController {
     }
 
     deinit {
+        // remove later - to make sure we have no retrain issues during development
         print("de init")
     }
 
-    init(navigationTitle: String, viewModel: SectionViewModelType, cellActions: DetailsRouterActions?) {
+    init(navigationTitle: String, viewModel: SectionViewModelType, cellActions: DetailsNavigator?) {
         self.viewModel = viewModel
         self.navigationTitle = navigationTitle
         self.cellActions = cellActions

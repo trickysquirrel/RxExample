@@ -10,23 +10,6 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-private struct CountriesDataModel: Decodable {
-    let meta: Meta
-    let results: [Country]
-
-    struct Meta: Decodable {
-        let name, license: String
-        let website: String
-        let page, limit, found: Int
-    }
-
-    struct Country: Decodable {
-        let code: String
-        let count, locations, cities: Int
-        let name: String?
-    }
-}
-
 
 class CountriesViewModel: SectionViewModelType, SectionViewModelTypeInputs, SectionViewModelTypeOutputs {
 
@@ -35,32 +18,41 @@ class CountriesViewModel: SectionViewModelType, SectionViewModelTypeInputs, Sect
 
     let sections: BehaviorSubject<[SectionModel<String, SectionItemModel>]> = BehaviorSubject(value: [])
     let showLoading = BehaviorRelay<Bool>(value: true)
-    private let url = URL(string: "https://api.openaq.org/v1/countries")!
+
+    private let disposeBag = DisposeBag()
 
 
     func loadFirstPage() {
 
         showLoading.accept(true)
 
-        URLSession.shared.dataTask(with: url) { [weak self] (data, _, error) in
-            // handle status code network errors here
-            guard let data = data else { return }
-            do {
-                let countriesModel = try JSONDecoder().decode(CountriesDataModel.self, from: data)
-                self?.updateCountries(countriesModel.results)
-            } catch let error {
-                // handle data errors here
-                print("Error:", error.localizedDescription)
-            }
-            self?.showLoading.accept(false)
-        }.resume()
+        let client = APIClient.shared
+        do {
+            try client.getCountries()
+                .subscribe(
+                    onNext: { [weak self] countries in
+                        self?.updateCountries(countries.results)
+                    },
+                    onError: { error in
+                        // handle data/network errors here
+                        print(error.localizedDescription)
+                    },
+                    onCompleted: { [weak self] in
+                        self?.showLoading.accept(false)
+                    })
+                    .disposed(by: disposeBag)
+        }
+        catch {
+            self.showLoading.accept(false)
+            // handle error, e.g could not create url
+        }
     }
 
-    
+    // does nothing for this object
     func loadNextPage() {}
 
 
-    private func updateCountries(_ countries: [CountriesDataModel.Country]) {
+    private func updateCountries(_ countries: [CountriesAPIModel.Country]) {
 
         let orderedCountriesWithNames = countries
             .filter { $0.name != nil }

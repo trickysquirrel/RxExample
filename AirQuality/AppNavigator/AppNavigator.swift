@@ -1,25 +1,25 @@
 import UIKit
 import DJSemiModalViewController
 
-/// For RouterActions perfer to use Values rather than Classes to keep a stricter control dependancy and side effects
+/// For navigation actions perfer to use Values rather than Classes to keep a stricter control dependancy and side effects
 
-protocol DetailsRouterActions: class {
+protocol DetailsNavigator: class {
     func showDetails(from viewController: UIViewController, name: String, code: String)
 }
 
 
-/// Simple AppRouter that controls navigation throughout the app
+/// Simple AppNavigator that controls navigation throughout the app
 /// Encourages a greater seperation of concerns between ViewController (VC) and navigation.
 /// This way we can focus ViewController on just the logic they need to perform their job
 /// Also having this seperation allows us to easily manipulated the flow of the app for A/B testing without VCs needing to know
 
-class AppRouter {
+class AppNavigator {
 
     private let window: UIWindow
     private let navigationController: UINavigationController
     private let viewControllerFactory: ViewControllerFactory
     private let informationAlert: InformationAlertProtocol
-    private let appRouterCountries: AppRouterCountries
+    private let appNavigatorCountries: AppNavigatorCountries
 
     // Large scale application that push and pop whilst animating can suffer random failures when used alot in unit tests as the system can get confused,
     // by removing the animation we make the test simpler by not needing an expectation and more robust as timing is not involded which
@@ -37,14 +37,14 @@ class AppRouter {
         self.navigationController = navigationController
         self.informationAlert = informationAlert
         self.animateTransitions = animateTransitions
-        self.appRouterCountries = AppRouterCountries(navigationController: navigationController, viewControllerFactory: viewControllerFactory)
+        self.appNavigatorCountries = AppNavigatorCountries(navigationController: navigationController, viewControllerFactory: viewControllerFactory)
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
     }
 
 
     func start() {
-        let viewController = viewControllerFactory.makeCountriesViewController(appActions: appRouterCountries)
+        let viewController = viewControllerFactory.makeCountriesViewController(appActions: appNavigatorCountries)
         navigationController(navigationController, pushOnViewController: viewController, animated: false)
     }
 
@@ -54,27 +54,27 @@ class AppRouter {
     }
 }
 
-class AppRouterCountries: DetailsRouterActions {
+class AppNavigatorCountries: DetailsNavigator {
 
     private let navigationController: UINavigationController
     private let viewControllerFactory: ViewControllerFactory
-    private let appRouterCities: AppRouterCities
+    private let appNavigatorCities: AppNavigatorCities
 
     init(navigationController: UINavigationController, viewControllerFactory: ViewControllerFactory) {
         self.navigationController = navigationController
         self.viewControllerFactory = viewControllerFactory
-        self.appRouterCities = AppRouterCities(navigationController: navigationController, viewControllerFactory: viewControllerFactory)
+        self.appNavigatorCities = AppNavigatorCities(navigationController: navigationController, viewControllerFactory: viewControllerFactory)
     }
 
     func showDetails(from viewController: UIViewController, name: String, code: String) {
         let detailsViewController = viewControllerFactory.makeCitiesViewController(
             countryCode: code,
-            appActions: appRouterCities)
+            appActions: appNavigatorCities)
         navigationController.pushViewController(detailsViewController, animated: true)
     }
 }
 
-class AppRouterCities: DetailsRouterActions {
+class AppNavigatorCities: DetailsNavigator {
 
     private let navigationController: UINavigationController
     private let viewControllerFactory: ViewControllerFactory

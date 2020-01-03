@@ -10,21 +10,6 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-private struct CitiesDataModel: Decodable {
-    let meta: Meta
-    let results: [Result]
-
-    struct Meta: Decodable {
-        let name, license: String
-        let website: String
-        let page, limit, found: Int
-    }
-
-    struct Result: Decodable {
-        let name, city: String
-        let count, locations: Int
-    }
-}
 
 class CitiesViewModel: SectionViewModelType, SectionViewModelTypeInputs, SectionViewModelTypeOutputs {
 
@@ -33,42 +18,44 @@ class CitiesViewModel: SectionViewModelType, SectionViewModelTypeInputs, Section
 
     let sections: BehaviorSubject<[SectionModel<String, SectionItemModel>]> = BehaviorSubject(value: [])
     let showLoading = BehaviorRelay<Bool>(value: true)
-    private let url: URL?
+
+    private let countryCode: String
+    private let disposeBag = DisposeBag()
     private let ignoreName = "N/A"
 
     init(countryCode: String) {
-        let urlString = "https://api.openaq.org/v1/cities?country=" + countryCode
-        self.url = URL(string: urlString)
+        self.countryCode = countryCode
     }
 
     func loadFirstPage() {
 
-        guard let url = url else {
-            // show error
-            return
+        let client = APIClient.shared
+        do {
+            try client.getCities(countryCode: countryCode)
+                .subscribe(
+                    onNext: { [weak self] cities in
+                        self?.updateCities(cities.results)
+                    },
+                    onError: { error in
+                        // handle data/network errors here
+                        print(error.localizedDescription)
+                    },
+                    onCompleted: { [weak self] in
+                        self?.showLoading.accept(false)
+                    })
+                    .disposed(by: disposeBag)
         }
-
-        showLoading.accept(true)
-
-        URLSession.shared.dataTask(with: url) { [weak self] (data, _, error) in
-            // handle status code network errors here
-            guard let data = data else { return }
-            do {
-                let citiesModel = try JSONDecoder().decode(CitiesDataModel.self, from: data)
-                self?.updateCities(citiesModel.results)
-            } catch let error {
-                // handle data errors here
-                print("Error:", error.localizedDescription)
-            }
-            self?.showLoading.accept(false)
-        }.resume()
+        catch {
+            self.showLoading.accept(false)
+            // handle error, e.g could not create url
+        }
     }
 
-    
+    // does nothing for this object
     func loadNextPage() {}
 
 
-    private func updateCities(_ countries: [CitiesDataModel.Result]) {
+    private func updateCities(_ countries: [CitiesAPIModel.Result]) {
 
         let orderedCountriesWithNames = countries
             .filter { $0.name != ignoreName }

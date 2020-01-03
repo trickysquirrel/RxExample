@@ -12,7 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var appRouter: AppRouter?
+    var appNavigator: AppNavigator?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -24,13 +24,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let navigationController = UINavigationController()
 
-        appRouter = AppRouter(window: window,
+        appNavigator = AppNavigator(window: window,
                               navigationController: navigationController,
                               viewControllerFactory: viewControllerFactory,
                               informationAlert: InformationAlert(),
                               animateTransitions: true)
 
-        appRouter?.start()
+        appNavigator?.start()
 
         return true
     }

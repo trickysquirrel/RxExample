@@ -1,5 +1,5 @@
 //
-//  APIClient.swift
+//  RequestObservable.swift
 //  AirQuality
 //
 //  Created by Richard Moult on 3/1/20.
@@ -56,46 +56,5 @@ public class RequestObservable {
                     task.cancel()
                 }
             }
-    }
-}
-
-
-struct MeasurementsDataModel: Decodable {
-    let meta: Meta
-    let results: [Result]
-
-    struct Meta: Decodable {
-        let name, license: String
-        let website: String
-        let page, limit, found: Int
-    }
-
-    struct Result: Decodable {
-        let date: DateClass
-        let parameter: String
-        let location: String
-        let value: Double
-        let unit: String
-    }
-
-    struct DateClass: Decodable {
-        let utc: String
-        let local: Date
-    }
-}
-
-
-class APIClient {
-
-    static var shared = APIClient()
-    lazy var requestObservable = RequestObservable(config: .default)
-
-    func getMeasurements(escapedCityCode: String, pageNumber: Int, pageLimit: Int) throws -> Observable<MeasurementsDataModel> {
-        var request = URLRequest(url:
-            URL(string: "https://api.openaq.org/v1/measurements?city=" + escapedCityCode + "&page=\(pageNumber)&limit=\(pageLimit)")!)
-        request.httpMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField:
-            "Content-Type")
-        return requestObservable.callAPI(request: request)
     }
 }

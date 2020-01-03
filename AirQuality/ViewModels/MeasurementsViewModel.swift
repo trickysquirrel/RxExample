@@ -30,7 +30,7 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, S
     let sections: BehaviorSubject<[SectionModel<String, SectionItemModel>]> = BehaviorSubject(value: [])
     let showLoading = BehaviorRelay<Bool>(value: false)
     private var isLoading: Bool = false
-    private var metaData: MeasurementsDataModel.Meta?
+    private var metaData: MeasurementsAPIModel.Meta?
     private var previousLoadedModels: [SectionItemModel] = []
 
     private let dateFormatter = DateFormatter()
@@ -62,9 +62,9 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, S
         do {
             try client.getMeasurements(escapedCityCode: escapedCityCode, pageNumber: pageNumber, pageLimit: pageLimit)
                 .subscribe(
-                    onNext: { [weak self] result in
-                        self?.metaData = result.meta
-                        self?.appendLocations(result.results)
+                    onNext: { [weak self] measurements in
+                        self?.metaData = measurements.meta
+                        self?.appendLocations(measurements.results)
                     },
                     onError: { error in
                         // handle data/network errors here
@@ -90,7 +90,7 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, S
     }
     
 
-    private func appendLocations(_ countries: [MeasurementsDataModel.Result]) {
+    private func appendLocations(_ countries: [MeasurementsAPIModel.Result]) {
 
         let orderedCountriesWithNames = countries
             .map { SectionItemModel(code: "", name: "location: \($0.location)\nvalue: \($0.value)\($0.unit) \n\(parameters[$0.parameter] ?? "unknown")\n\(dateFormatter.string(from: $0.date.local))") }
