@@ -10,17 +10,15 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-
 class CountriesViewModel: SectionViewModelType, SectionViewModelTypeInputs, SectionViewModelTypeOutputs {
 
-    var inputs: SectionViewModelTypeInputs { return self}
-    var outputs: SectionViewModelTypeOutputs { return self}
+    var inputs: SectionViewModelTypeInputs { return self }
+    var outputs: SectionViewModelTypeOutputs { return self }
 
     let sections: BehaviorSubject<[SectionModel<String, SectionItemModel>]> = BehaviorSubject(value: [])
     let showLoading = BehaviorRelay<Bool>(value: true)
 
     private let disposeBag = DisposeBag()
-
 
     func loadFirstPage() {
 
@@ -28,7 +26,8 @@ class CountriesViewModel: SectionViewModelType, SectionViewModelTypeInputs, Sect
 
         let client = APIClient.shared
         do {
-            try client.getCountries()
+            try client
+                .getCountries()
                 .subscribe(
                     onNext: { [weak self] countries in
                         self?.updateCountries(countries.results)
@@ -42,8 +41,7 @@ class CountriesViewModel: SectionViewModelType, SectionViewModelTypeInputs, Sect
                     }
                 )
                 .disposed(by: disposeBag)
-        }
-        catch {
+        } catch {
             self.showLoading.accept(false)
             // handle error, e.g could not create url
         }
@@ -51,7 +49,6 @@ class CountriesViewModel: SectionViewModelType, SectionViewModelTypeInputs, Sect
 
     // does nothing for this object
     func loadNextPage() {}
-
 
     private func updateCountries(_ countries: [CountriesAPIModel.Country]) {
 

@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-
 private let parameters: [String: String] = [
     "bc": "Black Carbon",
     "co": "Carbon Monoxide",
@@ -20,7 +19,6 @@ private let parameters: [String: String] = [
     "pm25": "Particulate matter less than 2.5 micrometers in diameter",
     "so2": "Sulfur Dioxide"
 ]
-
 
 class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, SectionViewModelTypeOutputs {
 
@@ -38,10 +36,10 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, S
     private let pageLimit: Int = 100
     private let disposeBag = DisposeBag()
 
-
     init(cityCode: String) {
         // todo does not handle this correctly with all cities yet, need to check API as to why
-        escapedCityCode = cityCode.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]{} ").inverted) ?? "" // handle this error better
+        // handle this error better
+        escapedCityCode = cityCode.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]{} ").inverted) ?? ""
         self.dateFormatter.dateStyle = .medium
         self.dateFormatter.timeStyle = .medium
     }
@@ -60,7 +58,8 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, S
 
         let client = APIClient.shared
         do {
-            try client.getMeasurements(escapedCityCode: escapedCityCode, pageNumber: pageNumber, pageLimit: pageLimit)
+            try client
+                .getMeasurements(escapedCityCode: escapedCityCode, pageNumber: pageNumber, pageLimit: pageLimit)
                 .subscribe(
                     onNext: { [weak self] measurements in
                         self?.metaData = measurements.meta
@@ -75,13 +74,11 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, S
                     }
                 )
                 .disposed(by: disposeBag)
-        }
-        catch {
+        } catch {
             self.setLoading(pageNumber: pageNumber, loading: false)
             // handle error, e.g could not create url
         }
     }
-
 
     private func setLoading(pageNumber: Int, loading: Bool) {
         isLoading = loading
@@ -89,7 +86,6 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, S
             showLoading.accept(loading)
         }
     }
-    
 
     private func appendLocations(_ countries: [MeasurementsAPIModel.Result]) {
 
@@ -101,7 +97,6 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, S
         let sectionModels = [SectionModel(model: "", items: previousLoadedModels)]
         sections.onNext(sectionModels)
     }
-
 
     private func nextPageNumber() -> Int? {
         let page = (metaData?.page ?? 0) + 1 // api first page = 1

@@ -5,6 +5,9 @@ target 'AirQuality' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
+  # ignore all warnings from all dependencies for swift lint
+  inhibit_all_warnings!
+
   # Pods for AirQuality
 
   pod 'RxSwift', '~> 5'

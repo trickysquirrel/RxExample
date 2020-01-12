@@ -12,6 +12,7 @@
 		301270C423BF51B400592565 /* CountriesAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301270C323BF51B400592565 /* CountriesAPIModel.swift */; };
 		301270C623BF51C600592565 /* CitiesAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301270C523BF51C600592565 /* CitiesAPIModel.swift */; };
 		301270C823BF51D900592565 /* MeasurementsAPIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301270C723BF51D900592565 /* MeasurementsAPIModel.swift */; };
+		30665C7D23CBC72000ACF886 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 30665C7C23CBC72000ACF886 /* .swiftlint.yml */; };
 		30A5693323BCCE77006FED9E /* SectionViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5693223BCCE77006FED9E /* SectionViewModelType.swift */; };
 		30A5693523BCCECD006FED9E /* CitiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5693423BCCECD006FED9E /* CitiesViewModel.swift */; };
 		30A5693923BCD89B006FED9E /* MeasurementsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5693823BCD89B006FED9E /* MeasurementsViewModel.swift */; };
@@ -50,6 +51,7 @@
 		301270C323BF51B400592565 /* CountriesAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesAPIModel.swift; sourceTree = "<group>"; };
 		301270C523BF51C600592565 /* CitiesAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesAPIModel.swift; sourceTree = "<group>"; };
 		301270C723BF51D900592565 /* MeasurementsAPIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementsAPIModel.swift; sourceTree = "<group>"; };
+		30665C7C23CBC72000ACF886 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		30A5693223BCCE77006FED9E /* SectionViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionViewModelType.swift; sourceTree = "<group>"; };
 		30A5693423BCCECD006FED9E /* CitiesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesViewModel.swift; sourceTree = "<group>"; };
 		30A5693823BCD89B006FED9E /* MeasurementsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementsViewModel.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 		30FDA5AF23BAFB6600ED9815 = {
 			isa = PBXGroup;
 			children = (
+				30665C7C23CBC72000ACF886 /* .swiftlint.yml */,
 				30A5693E23BF45A8006FED9E /* README.md */,
 				30FDA5BA23BAFB6600ED9815 /* AirQuality */,
 				30FDA5D123BAFB6600ED9815 /* AirQualityTests */,
@@ -223,6 +226,7 @@
 				30FDA5B523BAFB6600ED9815 /* Frameworks */,
 				30FDA5B623BAFB6600ED9815 /* Resources */,
 				6CC16710022823D969451426 /* [CP] Embed Pods Frameworks */,
+				30665C7B23CBC4DF00ACF886 /* Lint */,
 			);
 			buildRules = (
 			);
@@ -295,6 +299,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30665C7D23CBC72000ACF886 /* .swiftlint.yml in Resources */,
 				30FDA5C823BAFB6600ED9815 /* LaunchScreen.storyboard in Resources */,
 				30FDA5C523BAFB6600ED9815 /* Assets.xcassets in Resources */,
 				30A5693F23BF45A8006FED9E /* README.md in Resources */,
@@ -312,6 +317,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		30665C7B23CBC4DF00ACF886 /* Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Lint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		6AD9B295807E56D27EBA93A9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

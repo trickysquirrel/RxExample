@@ -14,6 +14,10 @@ As we only have one VC but require the cell selections to navigate to different 
 
 Together this allows reuse of the table view controller to show differnent information and link to differnent VCs
 
+### Setting up SwiftLint
+
+https://medium.com/developerinsider/how-to-use-swiftlint-with-xcode-to-enforce-swift-style-and-conventions-368e49e910
+
 
 ### Todo
 
@@ -22,4 +26,3 @@ Work on error handing
 Show errors and retry
 
 UI warnings 
-

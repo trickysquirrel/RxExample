@@ -14,7 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var appNavigator: AppNavigator?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -36,10 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
-
-
-
-// MARK:- App life cycle
+// MARK: - App life cycle
 
 extension AppDelegate {
     func applicationWillResignActive(_ application: UIApplication) {}
@@ -48,5 +44,3 @@ extension AppDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {}
     func applicationWillTerminate(_ application: UIApplication) {}
 }
-
-

@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-
 class CitiesViewModel: SectionViewModelType, SectionViewModelTypeInputs, SectionViewModelTypeOutputs {
 
     var inputs: SectionViewModelTypeInputs { return self}
@@ -31,7 +30,8 @@ class CitiesViewModel: SectionViewModelType, SectionViewModelTypeInputs, Section
 
         let client = APIClient.shared
         do {
-            try client.getCities(countryCode: countryCode)
+            try client
+                .getCities(countryCode: countryCode)
                 .subscribe(
                     onNext: { [weak self] cities in
                         self?.updateCities(cities.results)
@@ -45,8 +45,7 @@ class CitiesViewModel: SectionViewModelType, SectionViewModelTypeInputs, Section
                     }
                 )
                 .disposed(by: disposeBag)
-        }
-        catch {
+        } catch {
             self.showLoading.accept(false)
             // handle error, e.g could not create url
         }
@@ -54,7 +53,6 @@ class CitiesViewModel: SectionViewModelType, SectionViewModelTypeInputs, Section
 
     // does nothing for this object
     func loadNextPage() {}
-
 
     private func updateCities(_ countries: [CitiesAPIModel.Result]) {
 

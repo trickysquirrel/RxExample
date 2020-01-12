@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-
 struct SectionItemModel: Decodable {
     let code: String
     let name: String

@@ -16,6 +16,7 @@ class APIClient {
     static var shared = APIClient()
     lazy var requestObservable = RequestObservable(config: .default)
 
+    // todo: remove throw in exchange for returning observable error to reduce view model code
     func getCountries() throws -> Observable<CountriesAPIModel> {
         var request = URLRequest(url: URL(string: "https://api.openaq.org/v1/countries")!)
         request.httpMethod = "GET"

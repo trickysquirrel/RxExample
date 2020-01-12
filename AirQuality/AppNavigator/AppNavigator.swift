@@ -7,7 +7,6 @@ protocol DetailsNavigator: class {
     func showDetails(from viewController: UIViewController, name: String, code: String)
 }
 
-
 /// Simple AppNavigator that controls navigation throughout the app
 /// Encourages a greater seperation of concerns between ViewController (VC) and navigation.
 /// This way we can focus ViewController on just the logic they need to perform their job
@@ -26,7 +25,6 @@ class AppNavigator {
     // causes the majority of flaky tests of these kind, so injecting the animation value here so tests can set to false
     private let animateTransitions: Bool
 
-
     init(window: UIWindow,
          navigationController: UINavigationController,
          viewControllerFactory: ViewControllerFactory,
@@ -42,14 +40,12 @@ class AppNavigator {
         window.makeKeyAndVisible()
     }
 
-
     func start() {
         let viewController = viewControllerFactory.makeCountriesViewController(appActions: appNavigatorCountries)
         navigationController(navigationController, pushOnViewController: viewController, animated: false)
     }
 
-
-    private func navigationController(_ navigationController: UINavigationController, pushOnViewController viewController:UIViewController, animated: Bool) {
+    private func navigationController(_ navigationController: UINavigationController, pushOnViewController viewController: UIViewController, animated: Bool) {
         navigationController.pushViewController(viewController, animated: animateTransitions)
     }
 }

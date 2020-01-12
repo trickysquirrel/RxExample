@@ -13,7 +13,8 @@ import SVProgressHUD
 extension Reactive where Base: SVProgressHUD {
 
    public static var isAnimating: Binder<Bool> {
-      return Binder(UIApplication.shared) { progressHUD, isVisible in
+      // By default it binds elements on main scheduler.
+      return Binder(UIApplication.shared) { _, isVisible in
          if isVisible {
             SVProgressHUD.show()
          } else {
@@ -21,5 +22,4 @@ extension Reactive where Base: SVProgressHUD {
          }
       }
    }
-
 }

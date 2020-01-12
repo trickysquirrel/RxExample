@@ -12,7 +12,6 @@ import RxCocoa
 import RxDataSources
 import SVProgressHUD
 
-
 class SectionTableViewController: UITableViewController {
 
     private let cellId = "TitleTableCell"
@@ -38,7 +37,6 @@ class SectionTableViewController: UITableViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         title = navigationTitle
@@ -48,27 +46,24 @@ class SectionTableViewController: UITableViewController {
         viewModel.inputs.loadFirstPage()
     }
 
-
     private func configureTableView() {
         tableView.delegate = nil
         tableView.dataSource = nil
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
     }
 
-
     private func bindLoadingView(to viewModel: SectionViewModelType) {
         // switch to MD progress hub and add to view so hidden when dismissed and removes warnings
+        // isAnimating uses Bind which by default it binds elements on main scheduler.
         viewModel.outputs.showLoading
-            .observeOn(MainScheduler.instance)
             .bind(to: SVProgressHUD.rx.isAnimating)
             .disposed(by: disposeBag)
     }
 
-    
     private func bindTableView(to viewModel: SectionViewModelType) {
 
         let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, SectionItemModel>>(
-            configureCell: { [weak self] dataSource, table, indexPath, item in
+            configureCell: { [weak self] dataSource, _, indexPath, item in
                 guard let self = self else { return UITableViewCell() }
                 let cell = self.tableView.dequeueReusableCell(withIdentifier: self.cellId, for: indexPath)
                 cell.textLabel?.text = item.name
@@ -90,7 +85,7 @@ class SectionTableViewController: UITableViewController {
 
         // watch for when to load next page
         tableView.rx.reachedBottom
-            .subscribe(onNext: { [weak self] indexPath in
+            .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.inputs.loadNextPage()
             })
             .disposed(by: disposeBag)
