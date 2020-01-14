@@ -8,26 +8,11 @@
 
 import XCTest
 import RxSwift
-import RxTest
 import RxDataSources
 import Nimble
 @testable import AirQuality
 
 class CountriesViewModelTests: XCTestCase {
-
-    private var scheduler: TestScheduler!
-    private var disposeBag: DisposeBag!
-
-    override func setUp() {
-        super.setUp()
-        self.scheduler = TestScheduler(initialClock: 0)
-        self.disposeBag = DisposeBag()
-    }
-
-    override func tearDown() {
-        self.scheduler = nil
-        self.disposeBag = nil
-    }
 
     func test_apiClient_error_receives_errorString() {
 
