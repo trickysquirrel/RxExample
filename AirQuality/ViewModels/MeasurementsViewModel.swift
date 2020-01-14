@@ -65,11 +65,16 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs {
             .getMeasurements(escapedCityCode: escapedCityCode, pageNumber: pageNumber, pageLimit: pageLimit)
             .subscribe(
                 onNext: { [weak self] measurements in
-                    self?.metaData = measurements.meta
-                    self?.appendLocations(measurements.results)
+                    guard let self = self else { return }
+                    self.metaData = measurements.meta
+                    self.appendLocations(measurements.results)
+                    if self.previousLoadedModels.isEmpty {
+                        self.outputs.errorRelay.accept("no data accessible at the moment")
+                    }
                 },
                 onError: { [weak self] error in
                     self?.outputs.errorRelay.accept(error.localizedDescription)
+                    self?.outputs.showLoadingRelay.accept(false)
                 },
                 onCompleted: { [weak self] in
                     self?.setLoading(pageNumber: pageNumber, loading: false)

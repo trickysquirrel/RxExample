@@ -63,7 +63,6 @@ class APIClient: API {
         return Observable.create { observer in
             let userInfo = [NSLocalizedDescriptionKey: "Url error"] // better error required
             observer.onError(NSError(domain: "url error", code: 0, userInfo: userInfo))
-            observer.onCompleted()
             return Disposables.create {}
         }
     }

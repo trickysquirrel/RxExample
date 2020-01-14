@@ -44,6 +44,7 @@ class CitiesViewModel: SectionViewModelType, SectionViewModelTypeInputs {
                 },
                 onError: { [weak self] error in
                     self?.outputs.errorRelay.accept(error.localizedDescription)
+                    self?.outputs.showLoadingRelay.accept(false)
                 },
                 onCompleted: { [weak self] in
                     self?.outputs.showLoadingRelay.accept(false)

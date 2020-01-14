@@ -43,6 +43,7 @@ class SectionTableViewController: UITableViewController {
         configureTableView()
         bindLoadingView(to: viewModel)
         bindTableView(to: viewModel)
+        bindError(to: viewModel)
         viewModel.inputs.loadFirstPage()
     }
 
@@ -56,8 +57,23 @@ class SectionTableViewController: UITableViewController {
         // switch to MD progress hub and add to view so hidden when dismissed and removes warnings
         // isAnimating uses Bind which by default it binds elements on main scheduler.
         viewModel.outputs.showLoadingRelay
+            .observeOn(MainScheduler()) // check we need this
             .bind(to: SVProgressHUD.rx.isAnimating)
             .disposed(by: disposeBag)
+    }
+
+    private func bindError(to viewModel: SectionViewModelType) {
+        viewModel.outputs.errorRelay
+            .observeOn(MainScheduler())
+            .subscribe(onNext: { self.showAlert(with: $0) })
+            .disposed(by: disposeBag)
+    }
+
+    private func showAlert(with errorMessage: String) {
+        let okAlertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        let alertViewController = UIAlertController(title: "Something went wrong", message: errorMessage, preferredStyle: .alert)
+        alertViewController.addAction(okAlertAction)
+        present(alertViewController, animated: true, completion: nil)
     }
 
     private func bindTableView(to viewModel: SectionViewModelType) {
@@ -80,6 +96,7 @@ class SectionTableViewController: UITableViewController {
 
         // bind data source for cell generation
         viewModel.outputs.sectionsRelay
+            .observeOn(MainScheduler())
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
 

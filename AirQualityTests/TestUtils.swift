@@ -64,22 +64,25 @@ struct FakeAPIClient: API {
     }
 
     func getCountries() -> Observable<CountriesAPIModel> {
-        // need to find a better way to do this as this complete is called too late RxTest time?
         if let error = error {
-            return Observable.create { observer in
-                observer.onError(error)
-                observer.onCompleted()
-                return Disposables.create {}
-            }
+            // http://reactivex.io/documentation/contract.html
+            // OnError indicates that the Observable has terminated with a specified error condition and that it will be emitting no further items, e.g complete
+            return Observable.error(error)
         }
         return Observable.just(self.fakeCountriesAPIModel)
     }
 
     func getCities(countryCode: String) -> Observable<CitiesAPIModel> {
+        if let error = error {
+            return Observable.error(error)
+        }
         return Observable.just(self.fakeCitiesAPIModel)
     }
 
     func getMeasurements(escapedCityCode: String, pageNumber: Int, pageLimit: Int) -> Observable<MeasurementsAPIModel> {
+        if let error = error {
+            return Observable.error(error)
+        }
         return Observable.just(self.fakeMeasurementsAPIModel)
     }
 }

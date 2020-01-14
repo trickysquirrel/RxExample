@@ -42,8 +42,8 @@ class CountriesViewModel: SectionViewModelType, SectionViewModelTypeInputs {
                     self.outputs.sectionsRelay.accept(sections)
                 },
                 onError: { [weak self] error in
-                    print(">> error \(error)")
                     self?.outputs.errorRelay.accept(error.localizedDescription)
+                    self?.outputs.showLoadingRelay.accept(false)
                 },
                 onCompleted: { [weak self] in
                     self?.outputs.showLoadingRelay.accept(false)

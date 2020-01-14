@@ -29,19 +29,6 @@ class CountriesViewModelTests: XCTestCase {
         self.disposeBag = nil
     }
 
-    func test_receives_showLoading_on_call_to_loadFirstPage_then_again_once_network_call_complete() {
-        let viewModel = CountriesViewModel(apiClient: FakeAPIClient())
-
-        let loadingCollector = RxCollector<Bool>()
-            .collect(from: viewModel.outputs.showLoadingRelay.asObservable())
-        
-        viewModel.inputs.loadFirstPage()
-
-        expect(loadingCollector.toArray).toEventually(equal([true, false]))
-    }
-
-    // Need to change the tests so FakeAPIClient can return multiple responses so we can test loading at the same time as errors
-
     func test_apiClient_error_receives_errorString() {
 
         let viewModel = CountriesViewModel(apiClient: FakeAPIClient(error: NSError(domain: "d", code: 0, userInfo: nil)))
@@ -49,12 +36,12 @@ class CountriesViewModelTests: XCTestCase {
          let errorCollector = RxCollector<String>()
             .collect(from: viewModel.outputs.errorRelay.asObservable())
 
-      //  let loadingCollector = RxCollector<Bool>()
-       //     .collect(from: viewModel.outputs.showLoadingRelay.asObservable())
+        let loadingCollector = RxCollector<Bool>()
+            .collect(from: viewModel.outputs.showLoadingRelay.asObservable())
 
         viewModel.inputs.loadFirstPage()
 
-       // expect(loadingCollector.toArray).toEventually(equal([true, false]))
+        expect(loadingCollector.toArray).toEventually(equal([true, false]))
         expect(errorCollector.toArray).toEventually(equal(["The operation couldn’t be completed. (d error 0.)"]))
     }
 
