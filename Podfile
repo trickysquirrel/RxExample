@@ -14,12 +14,12 @@ target 'AirQuality' do
   pod 'RxCocoa', '~> 5'
   pod 'RxDataSources', '~> 4.0.1'
   pod 'SVProgressHUD'
-  pod 'DJSemiModalViewController'
 
   target 'AirQualityTests' do
     inherit! :search_paths
-   # pod 'RxBlocking'
-   # pod 'RxTest'
+    pod 'RxBlocking'
+    pod 'RxTest'
+    pod 'Nimble'
   end
 
 end

@@ -16,6 +16,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
+        #if DEBUG
+        // Short-circuit starting app if running unit tests
+        let isUnitTesting = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+        guard !isUnitTesting else {
+            return true
+        }
+        #endif
+
         window = UIWindow(frame: UIScreen.main.bounds)
         guard let window = window else { return true }
 

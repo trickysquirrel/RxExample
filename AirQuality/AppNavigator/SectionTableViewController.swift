@@ -55,7 +55,7 @@ class SectionTableViewController: UITableViewController {
     private func bindLoadingView(to viewModel: SectionViewModelType) {
         // switch to MD progress hub and add to view so hidden when dismissed and removes warnings
         // isAnimating uses Bind which by default it binds elements on main scheduler.
-        viewModel.outputs.showLoading
+        viewModel.outputs.showLoadingRelay
             .bind(to: SVProgressHUD.rx.isAnimating)
             .disposed(by: disposeBag)
     }
@@ -79,7 +79,7 @@ class SectionTableViewController: UITableViewController {
         )
 
         // bind data source for cell generation
-        viewModel.outputs.sections
+        viewModel.outputs.sectionsRelay
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
 

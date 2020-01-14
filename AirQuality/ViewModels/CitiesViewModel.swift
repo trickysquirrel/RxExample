@@ -10,51 +10,52 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-class CitiesViewModel: SectionViewModelType, SectionViewModelTypeInputs, SectionViewModelTypeOutputs {
+class CitiesViewModel: SectionViewModelType, SectionViewModelTypeInputs {
 
-    var inputs: SectionViewModelTypeInputs { return self}
-    var outputs: SectionViewModelTypeOutputs { return self}
-
-    let sections: BehaviorSubject<[SectionModel<String, SectionItemModel>]> = BehaviorSubject(value: [])
-    let showLoading = BehaviorRelay<Bool>(value: true)
+    var inputs: SectionViewModelTypeInputs { return self }
+    var outputs: SectionViewModelOutput
 
     private let countryCode: String
     private let disposeBag = DisposeBag()
+    private let apiClient: API
     private let ignoreName = "N/A"
 
-    init(countryCode: String) {
+    init(countryCode: String, apiClient: API = APIClient()) {
         self.countryCode = countryCode
+        self.apiClient = apiClient
+        self.outputs = SectionViewModelOutput(
+            sectionsRelay: BehaviorRelay<[SectionModel<String, SectionItemModel>]>(value: []),
+            showLoadingRelay: PublishRelay<Bool>(),
+            errorRelay: PublishRelay<String>()
+        )
     }
 
     func loadFirstPage() {
 
-        let client = APIClient.shared
-        do {
-            try client
-                .getCities(countryCode: countryCode)
-                .subscribe(
-                    onNext: { [weak self] cities in
-                        self?.updateCities(cities.results)
-                    },
-                    onError: { error in
-                        // handle data/network errors here
-                        print(error.localizedDescription)
-                    },
-                    onCompleted: { [weak self] in
-                        self?.showLoading.accept(false)
-                    }
-                )
-                .disposed(by: disposeBag)
-        } catch {
-            self.showLoading.accept(false)
-            // handle error, e.g could not create url
-        }
+        self.outputs.showLoadingRelay.accept(true)
+
+        apiClient
+            .getCities(countryCode: countryCode)
+            .subscribe(
+                onNext: { [weak self] cities in
+                    guard let self = self else { return }
+                    let sections = self.createCities(cities.results)
+                    self.outputs.sectionsRelay.accept(sections)
+                },
+                onError: { [weak self] error in
+                    self?.outputs.errorRelay.accept(error.localizedDescription)
+                },
+                onCompleted: { [weak self] in
+                    self?.outputs.showLoadingRelay.accept(false)
+                }
+            )
+            .disposed(by: disposeBag)
     }
 
     // does nothing for this object
     func loadNextPage() {}
 
-    private func updateCities(_ countries: [CitiesAPIModel.Result]) {
+    private func createCities(_ countries: [CitiesAPIModel.Result]) -> [SectionModel<String, SectionItemModel>] {
 
         let orderedCitiesWithNames = countries
             .filter { $0.name != ignoreName }
@@ -65,8 +66,7 @@ class CitiesViewModel: SectionViewModelType, SectionViewModelTypeInputs, Section
         let sortedGroupedCities = groupedAlphabeticalCities.sorted { $0.key < $1.key }
 
         // [SectionModel<String, SectionItemModel>]
-        let sectionModels = sortedGroupedCities.map { SectionModel(model: $0.key, items: $0.value) }
-        sections.onNext(sectionModels)
+        return sortedGroupedCities.map { SectionModel(model: $0.key, items: $0.value) }
     }
 
 }

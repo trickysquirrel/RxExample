@@ -20,13 +20,11 @@ private let parameters: [String: String] = [
     "so2": "Sulfur Dioxide"
 ]
 
-class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, SectionViewModelTypeOutputs {
+class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs {
 
-    var inputs: SectionViewModelTypeInputs { return self}
-    var outputs: SectionViewModelTypeOutputs { return self}
+    var inputs: SectionViewModelTypeInputs { return self }
+    var outputs: SectionViewModelOutput
 
-    let sections: BehaviorSubject<[SectionModel<String, SectionItemModel>]> = BehaviorSubject(value: [])
-    let showLoading = BehaviorRelay<Bool>(value: false)
     private var isLoading: Bool = false
     private var metaData: MeasurementsAPIModel.Meta?
     private var previousLoadedModels: [SectionItemModel] = []
@@ -35,13 +33,20 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, S
     private let escapedCityCode: String
     private let pageLimit: Int = 100
     private let disposeBag = DisposeBag()
+    private let apiClient: API
 
-    init(cityCode: String) {
+    init(cityCode: String, apiClient: API = APIClient()) {
         // todo does not handle this correctly with all cities yet, need to check API as to why
         // handle this error better
         escapedCityCode = cityCode.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "!*'();:@&=+$,/?%#[]{} ").inverted) ?? ""
         self.dateFormatter.dateStyle = .medium
         self.dateFormatter.timeStyle = .medium
+        self.apiClient = apiClient
+        self.outputs = SectionViewModelOutput(
+            sectionsRelay: BehaviorRelay<[SectionModel<String, SectionItemModel>]>(value: []),
+            showLoadingRelay: PublishRelay<Bool>(),
+            errorRelay: PublishRelay<String>()
+        )
     }
 
     func loadFirstPage() {
@@ -56,34 +61,27 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, S
 
         setLoading(pageNumber: pageNumber, loading: true)
 
-        let client = APIClient.shared
-        do {
-            try client
-                .getMeasurements(escapedCityCode: escapedCityCode, pageNumber: pageNumber, pageLimit: pageLimit)
-                .subscribe(
-                    onNext: { [weak self] measurements in
-                        self?.metaData = measurements.meta
-                        self?.appendLocations(measurements.results)
-                    },
-                    onError: { error in
-                        // handle data/network errors here
-                        print(error.localizedDescription)
-                    },
-                    onCompleted: { [weak self] in
-                        self?.setLoading(pageNumber: pageNumber, loading: false)
-                    }
-                )
-                .disposed(by: disposeBag)
-        } catch {
-            self.setLoading(pageNumber: pageNumber, loading: false)
-            // handle error, e.g could not create url
-        }
+        apiClient
+            .getMeasurements(escapedCityCode: escapedCityCode, pageNumber: pageNumber, pageLimit: pageLimit)
+            .subscribe(
+                onNext: { [weak self] measurements in
+                    self?.metaData = measurements.meta
+                    self?.appendLocations(measurements.results)
+                },
+                onError: { [weak self] error in
+                    self?.outputs.errorRelay.accept(error.localizedDescription)
+                },
+                onCompleted: { [weak self] in
+                    self?.setLoading(pageNumber: pageNumber, loading: false)
+                }
+            )
+            .disposed(by: disposeBag)
     }
 
     private func setLoading(pageNumber: Int, loading: Bool) {
         isLoading = loading
         if pageNumber == 1 {
-            showLoading.accept(loading)
+            outputs.showLoadingRelay.accept(loading)
         }
     }
 
@@ -95,7 +93,7 @@ class MeasurementsViewModel: SectionViewModelType, SectionViewModelTypeInputs, S
         previousLoadedModels += orderedCountriesWithNames
 
         let sectionModels = [SectionModel(model: "", items: previousLoadedModels)]
-        sections.onNext(sectionModels)
+        outputs.sectionsRelay.accept(sectionModels)
     }
 
     private func nextPageNumber() -> Int? {

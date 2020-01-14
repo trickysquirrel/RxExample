@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "53E1F357156545B08F62C7E8241BD765"
+               BlueprintIdentifier = "2709B12B9431E518CBD2F4C90C99F6DC"
                BuildableName = "Pods_AirQuality.framework"
                BlueprintName = "Pods-AirQuality"
                ReferencedContainer = "container:Pods.xcodeproj">

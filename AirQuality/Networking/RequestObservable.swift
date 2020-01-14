@@ -14,11 +14,11 @@ import RxCocoa
 public class RequestObservable {
 
     private lazy var jsonDecoder = JSONDecoder()
-    private var urlSession: URLSession
+    private var urlSession: NetworkSession
 
-    public init(config: URLSessionConfiguration) {
-        urlSession = URLSession(configuration: URLSessionConfiguration.default)
-        jsonDecoder.dateDecodingStrategy = .iso8601
+    public init(networkSession: NetworkSession) {
+        self.urlSession = networkSession
+        self.jsonDecoder.dateDecodingStrategy = .iso8601
     }
 
     // MARK: function for URLSession takes

@@ -1,5 +1,4 @@
 import UIKit
-import DJSemiModalViewController
 
 /// For navigation actions perfer to use Values rather than Classes to keep a stricter control dependancy and side effects
 

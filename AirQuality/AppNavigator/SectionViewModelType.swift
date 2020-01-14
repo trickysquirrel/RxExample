@@ -10,14 +10,14 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-struct SectionItemModel: Decodable {
+struct SectionItemModel: Decodable, Equatable {
     let code: String
     let name: String
 }
 
 protocol SectionViewModelType {
     var inputs: SectionViewModelTypeInputs { get  }
-    var outputs: SectionViewModelTypeOutputs { get }
+    var outputs: SectionViewModelOutput { get }
 }
 
 protocol SectionViewModelTypeInputs {
@@ -25,7 +25,8 @@ protocol SectionViewModelTypeInputs {
     func loadNextPage()
 }
 
-protocol SectionViewModelTypeOutputs {
-    var sections: BehaviorSubject<[SectionModel<String, SectionItemModel>]> { get }
-    var showLoading: BehaviorRelay<Bool> { get }
+struct SectionViewModelOutput {
+    let sectionsRelay: BehaviorRelay<[SectionModel<String, SectionItemModel>]>
+    let showLoadingRelay: PublishRelay<Bool>
+    let errorRelay: PublishRelay<String>
 }
